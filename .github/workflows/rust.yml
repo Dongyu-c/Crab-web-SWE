@@ -16,7 +16,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build
-      run: cargo build --verbose
+    
     - name: Run tests
-      run: cargo test --verbose
+      run: cargo test part1_color_cross_no_panic

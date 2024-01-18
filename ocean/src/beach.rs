@@ -13,6 +13,11 @@ impl Beach {
     pub fn new() -> Beach {
         unimplemented!();
     }
+    
+    /**pub fn new(r: u8, g: u8, b: u8) -> Color {
+        *Color { r, g, b }
+    *}
+    */
 
     /**
      * Returns the number of crabs on the beach.

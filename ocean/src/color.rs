@@ -34,6 +34,10 @@ impl Color {
      * https://doc.rust-lang.org/std/primitive.u8.html
      */
     pub fn cross(c1: &Color, c2: &Color) -> Color {
-        unimplemented!();
+        Color {
+        r: (c1.r as u16 + c2.r as u16) as u8 % 256,
+        g: (c1.g as u16 + c2.g as u16) as u8 % 256,
+        b: (c1.b as u16 + c2.b as u16) as u8 % 256,
+        };
     }
 }

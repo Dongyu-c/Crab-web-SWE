@@ -36,7 +36,7 @@ impl ClanSystem {
      */
     pub fn get_clan_member_count(&self, clan_id: &str) -> usize {
         let out = self.clan_id_map.get(clan_id);
-        println!("{}",clan_id.to_string());
+        //println!("{}",clan_id.to_string());
         for i in out{
             println!("{}",i.get(0).expect("REASON").to_string());
         }

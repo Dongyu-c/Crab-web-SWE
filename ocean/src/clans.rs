@@ -57,7 +57,7 @@ impl ClanSystem {
             let mut count:u32 = u32::MIN;
             let mut out = "Empty";
             for key in self.clan_id_map.keys(){
-                println!("{},{}",key,self.get_clan_member_count(key) as u32);
+                //println!("{},{}",key,self.get_clan_member_count(key) as u32);
                 if self.get_clan_member_count(key) as u32 > count{
                     count = self.get_clan_member_count(key) as u32;
                     out = key ;

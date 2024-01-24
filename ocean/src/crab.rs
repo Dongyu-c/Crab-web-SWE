@@ -9,28 +9,36 @@ use std::rc::Rc;
 #[derive(Debug)]
 pub struct Crab {
     // TODO: Add fields here (some in part 1, some in part 2)
+    pub name: String,
+    pub speed: u32,
+    pub color: Color,
+    pub diet: Diet,
+    pub reefs: Vec<Rc<RefCell<Reef>>>,
+
 }
+
 
 // Do NOT implement Copy for Crab.
 impl Crab {
     pub fn new(name: String, speed: u32, color: Color, diet: Diet) -> Crab {
-        unimplemented!();
+        Crab { name, speed, color, diet , reefs:Vec::new()}
     }
 
+
     pub fn name(&self) -> &str {
-        unimplemented!();
+        &self.name
     }
 
     pub fn speed(&self) -> u32 {
-        unimplemented!();
+        self.speed
     }
 
     pub fn color(&self) -> &Color {
-        unimplemented!();
+        &self.color
     }
 
     pub fn diet(&self) -> Diet {
-        unimplemented!();
+        self.diet
     }
 
     // PART 2 BELOW
@@ -40,7 +48,9 @@ impl Crab {
      * Have this crab discover a new reef, adding it to its list of reefs.
      */
     pub fn discover_reef(&mut self, reef: Rc<RefCell<Reef>>) {
-        unimplemented!();
+        
+        self.reefs.push(reef);
+        //unimplemented!();
     }
 
     /**
@@ -53,14 +63,31 @@ impl Crab {
      * If all reefs are empty, or this crab has no reefs, return None.
      */
     fn catch_prey(&mut self) -> Option<(Box<dyn Prey>, usize)> {
-        unimplemented!();
+        let mut out = None;
+        if self.reefs.len() != 0{
+            for i in 0..self.reefs.len(){
+                if self.reefs.len() != 0{
+                    let n_us: usize = i as usize;
+                    let mut temp_reef = self.reefs[i].borrow_mut();
+
+                    let mut old_out = temp_reef.take_prey();
+                    if !old_out.is_none(){
+                        out = Some((old_out.unwrap(),n_us));
+                        return out;
+                    }
+                    
+                }  
+            }
+        }
+        return out;
     }
 
     /**
      * Releases the given prey back into the reef at the given index.
      */
     fn release_prey(&mut self, prey: Box<dyn Prey>, reef_index: usize) {
-        unimplemented!();
+        let mut curr_reet = self.reefs[reef_index].borrow_mut();
+        curr_reet.add_prey(prey);
     }
 
     /**
@@ -100,7 +127,43 @@ impl Crab {
      * Note: this pseudocode reads like a terrible poem.
      */
     pub fn hunt(&mut self) -> bool {
-        unimplemented!();
+        // unimplemented!();
+        //let mut escaped: Vec<(Box(dyn Prey),usize)> = Vec::new();
+        let mut escaped: Vec<(Box<dyn Prey>,usize)> = Vec::new();
+        let mut have = true;
+        while 1 == 1{
+            let mut old_prey_condition = self.catch_prey();
+            
+            if old_prey_condition.is_none(){
+                have = false;
+                break;
+            }
+            let mut prey_condition = old_prey_condition.unwrap();
+            let mut prey = prey_condition.0;
+            let mut loc = prey_condition.1;
+    
+            if prey.try_escape(&self){
+                escaped.push( (prey, loc));
+            }else {
+                if prey.diet() != self.diet{
+                    escaped.push( (prey, loc));
+                }else{
+                    break;
+                }
+
+            }
+
+        }
+        
+        for i in escaped{
+            let mut prey = i.0;
+            let mut loc = i.1;
+            self.release_prey( prey, loc);
+            println!("RETURNED 111111111!!!!");
+        }
+
+        have
+
     }
 
     /**
@@ -111,7 +174,23 @@ impl Crab {
      * up to you to figure out which ones and where. Do not make any other changes
      * to the signature.
      */
-    pub fn choose_recipe(&self, cookbook: &Cookbook) -> Option<&Recipe> {
-        unimplemented!();
+    pub fn choose_recipe<'a>(&'a self, cookbook: &'a Cookbook) -> Option<&Recipe> {
+        // if self.diet == Diet::Fish {
+        //     println!("Fish!");
+        // }else if self.diet == Diet::Shellfish{
+        //     println!("Shellfish!");
+        // }else {
+        //     println!("Plants!");
+        // }
+        let mut out = None;
+        for i in cookbook.recipes(){
+            if i.diet() == self.diet {
+                out = Some(i);
+                
+            }
+        }
+        
+        return out;
+        
     }
 }

@@ -35,9 +35,9 @@ impl Color {
      */
     pub fn cross(c1: &Color, c2: &Color) -> Color {
         Color {
-        r: (c1.r as u16 + c2.r as u16) as u8 % 256,
-        g: (c1.g as u16 + c2.g as u16) as u8 % 256,
-        b: (c1.b as u16 + c2.b as u16) as u8 % 256,
-        };
+        r: ((c1.r as u16 + c2.r as u16) % 256) as u8 ,
+        g: ((c1.g as u16 + c2.g as u16) % 256) as u8 ,
+        b: ((c1.b as u16 + c2.b as u16) % 256) as u8 ,
+        }
     }
 }

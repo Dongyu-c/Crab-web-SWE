@@ -1,4 +1,3 @@
-
 #[derive(Debug)]
 pub struct ClanSystem {
     // TODO: add necessary fields
